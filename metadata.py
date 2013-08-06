@@ -45,8 +45,8 @@ def _request(identifier, method='POST', data={}, debug=False):
     )
 
 # METADATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
-def modify(identifier=None, metadata={}, target='metadata', test=False):
-    """function for modifying the metadata of an existing archive.org item.
+def modify(identifier=None, metadata={}, target='metadata', debug=False):
+    """function for modifying the metadata of an existing item on archive.org.
     Note: The Metadata Write API does not yet comply with the latest Json-Patch
     standard. It currently complies with version 02:
 
@@ -54,12 +54,13 @@ def modify(identifier=None, metadata={}, target='metadata', test=False):
 
     :param identifier: String. Unique Internet Archive identifier used to locate item.
     :param metadata: (optional) Dictionary. Metadata used to update the item.
-    :param target: (optional) String. Metadata target to update (.
+    :param target: (optional) String. Metadata target to update.
+    :param debug: (optional) Boolean. Print the JSON Patch to stdout and exit.
 
-    Usage::
+    Usage:
 
         >>> md = dict(new_key='new_value', foo=['bar', 'bar2'])
-        >>> metadata('tbrc_data-test', md)
+        >>> metadata('mapi_test_item1', md)
 
     """
     access_key, secret_key = os.environ['IAS3KEYS'].split(':')
@@ -87,7 +88,7 @@ def modify(identifier=None, metadata={}, target='metadata', test=False):
         'secret': secret_key,
     }
 
-    if test:
+    if debug:
         sys.stdout.write("Target:\t{-patch}\nPatch:\t{-target}\n".format(**data))
         sys.exit(0)
 
